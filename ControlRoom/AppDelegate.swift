@@ -13,8 +13,10 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     lazy var mainWindow: MainWindowController = MainWindowController()
+    var statusItem: NSStatusItem!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        setupMenu()
         mainWindow.showWindow(self)
     }
 
@@ -37,6 +39,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             NSApp.orderFrontStandardAboutPanel(sender)
         }
+    }
+    
+    func setupMenu() {
+        let statusBar = NSStatusBar.system
+        statusItem = statusBar.statusItem(withLength: NSStatusItem.squareLength)
+        statusItem.button?.title = "⚙️"
+        
+        let menu = NSMenu(title: "Control Room")
+        statusItem.menu = menu
+        
+        let testItem = NSMenuItem(title: "Test me!", action: #selector(AppDelegate.testMenu), keyEquivalent: "")
+        menu.addItem(testItem)
+    }
+    
+    @objc func testMenu() {
+        print("testing123!!!")
     }
 
 }
